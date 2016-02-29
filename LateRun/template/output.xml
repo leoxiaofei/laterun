@@ -1,0 +1,32 @@
+<Root>
+<Template path="template\output.xltx" startRow="3">
+<Column idx="A" value="T_ORDER" />
+<Column idx="B" value="T_NAME" />
+<Column idx="C" value="T_JOB_ID" />
+<Column idx="D" value="T_DEPARTMENT" />
+<Column idx="E" value="T_LATE_30MIN" />
+<Column idx="F" value="T_LATE_180MIN" />
+<Column idx="G" value="T_LATE_MORE" />
+<Column idx="H" value="=IF(E%R &lt; 3, 0, IF(E%R &lt; 6, 0.5, IF(E%R &lt; 9, 1, 0))) + F%R * 0.5 + G%R * 1" />
+<Column idx="I" value="T_FORGET_TIMES" />
+<Column idx="J" value="=IF(I%R &lt; 3, 0, IF(I%R &lt; 6, 0.5, IF(I%R &lt; 9, 1)))" />
+<Column idx="K" value="T_LEAVE_30MIN" />
+<Column idx="L" value="T_LEAVE_MORE" />
+<Column idx="M" value="=K%R * 0.5 + L%R * 1" />
+<Column idx="N" value="T_ABSENT" />
+<Column idx="O" value="T_ANNUAL" />
+<Column idx="P" value="T_PRIVATE" />
+<Column idx="Q" value="T_MARITAL" />
+<Column idx="R" value="T_FUNERAL" />
+<Column idx="S" value="T_SICK" />
+<Column idx="T" value="T_INJURY" />
+<Column idx="U" value="T_MATERNITY" />
+<Column idx="V" value="T_PATERNITY" />
+<Column idx="W" value="T_SWAP" />
+<Column idx="X" value="T_3HOUR" />
+<Column idx="Y" value="=H%R + J%R + M%R + N%R + P%R + S%R" />
+<Column idx="Z" value="T_DUTY" />
+<Column idx="AA" value="T_SURPLUS_SWAP" />
+<Column idx="AB" value="T_SURPLUS_ANNUAL" />
+</Template>
+</Root>
