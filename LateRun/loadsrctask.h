@@ -16,11 +16,13 @@ typedef fastdelegate::FastDelegate0<> UpdateDelegate;
 class LogSrcData
 {
 public:
+	wxString strRoster;
 	wxString strPunchLog;
 	wxString strDutyLog;
 	wxString strLeaveLog;
 	wxString strBiztripLog;
 	wxString strOutLog;
+	wxString strSurplusTable;
 };
 
 class LoadSrcTask
@@ -46,11 +48,13 @@ protected:
 	bool OutputRecord(MsWxExcel& msExcel, std::shared_ptr<ARecord> ptARecord);
 	bool OutputStatistics(MsWxExcel& msExcel, std::shared_ptr<ARecord> ptARecord);
 
+	bool LoadRoster(const wxString& strFileName, ARecord& aRecord);
 	bool LoadPunchLog(const wxString& strFileName, ARecord& aRecord);
 	bool LoadDutyLog(const wxString& strFileName, ARecord& aRecord);
 	bool LoadLeaveLog(const wxString& strFileName, ARecord& aRecord);
 	bool LoadBiztripLog(const wxString& strFileName, ARecord& aRecord);
 	bool LoadOutLog(const wxString& strFileName, ARecord& aRecord);
+	bool LoadSurplusTable(const wxString& strFileName, ARecord& aRecord);
 
 private:
 	class Impl;

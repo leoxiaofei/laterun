@@ -86,11 +86,13 @@ void LateRunFrame::OnBtnRunClick(wxCommandEvent& event)
 		ptLoadSrcTask->SetTemplate(aTemplate);
 
 		LogSrcData lsData;
+		lsData.strRoster = edtRoster->GetValue();
 		lsData.strPunchLog = edtPunchLog->GetValue();
 		lsData.strBiztripLog = edtBiztripLog->GetValue();
 		lsData.strDutyLog = edtDutyLog->GetValue();
 		lsData.strLeaveLog = edtLeaveLog->GetValue();
 		lsData.strOutLog = edtOutLog->GetValue();
+		lsData.strSurplusTable = edtSurplusTable->GetValue();
 
 		ptLoadSrcTask->SetLogSrcData(lsData);
 
@@ -123,7 +125,8 @@ void LateRunFrame::SaveParam() const
 	file.Write(wxT("History/LeaveLog"), edtLeaveLog->GetValue());
 	file.Write(wxT("History/BiztripLog"), edtBiztripLog->GetValue());
 	file.Write(wxT("History/OutLog"), edtOutLog->GetValue());
-	file.Write(wxT("History/AnnualTable"), edtAnnualTable->GetValue());
+	file.Write(wxT("History/Roster"), edtRoster->GetValue());
+	file.Write(wxT("History/SurplusTable"), edtSurplusTable->GetValue());
 
 	file.Write(wxT("Param/BeginDate"), dpBeginDate->GetValue().FormatISODate());
 	file.Write(wxT("Param/EndDate"), dpEndDate->GetValue().FormatISODate());
@@ -163,7 +166,8 @@ void LateRunFrame::LoadParam()
 	edtLeaveLog->SetValue(file.Read(wxT("History/LeaveLog")));
 	edtBiztripLog->SetValue(file.Read(wxT("History/BiztripLog")));
 	edtOutLog->SetValue(file.Read(wxT("History/OutLog")));
-	edtAnnualTable->SetValue(file.Read(wxT("History/AnnualTable")));
+	edtRoster->SetValue(file.Read(wxT("History/Roster")));
+	edtSurplusTable->SetValue(file.Read(wxT("History/SurplusTable")));
 	
 	wxDateTime dtBeginDate;
 	dtBeginDate.ParseISODate(file.Read(wxT("Param/BeginDate")));
@@ -295,13 +299,23 @@ void LateRunFrame::OnSbMainSize(wxSizeEvent& event)
 	m_pImpl->pGauge->SetSize(rect.GetSize());
 }
 
-void LateRunFrame::OnBtnAnnualTableClick(wxCommandEvent& event)
+void LateRunFrame::OnBtnRosterClick(wxCommandEvent& event)
 {
 	wxFileDialog openFileDialog(this, _("Open Excel file"), "", "",
 		_("Excel files (*.xls;*.xlsx)|*.xls;*.xlsx"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 	if (openFileDialog.ShowModal() == wxID_OK)
 	{
-		edtAnnualTable->SetValue(openFileDialog.GetPath());
+		edtRoster->SetValue(openFileDialog.GetPath());
+	}
+}
+
+void LateRunFrame::OnBtnSurplusTableClick(wxCommandEvent& event)
+{
+	wxFileDialog openFileDialog(this, _("Open Excel file"), "", "",
+		_("Excel files (*.xls;*.xlsx)|*.xls;*.xlsx"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+	if (openFileDialog.ShowModal() == wxID_OK)
+	{
+		edtSurplusTable->SetValue(openFileDialog.GetPath());
 	}
 }
 

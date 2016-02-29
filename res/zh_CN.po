@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-02-28 17:13+0800\n"
-"PO-Revision-Date: 2016-02-28 17:13+0800\n"
+"POT-Creation-Date: 2016-02-29 21:50+0800\n"
+"PO-Revision-Date: 2016-02-29 21:50+0800\n"
 "Last-Translator: leoxiaofei <soft@leoxiaofei.com>\n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -16,21 +16,23 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: laterunframe.cpp:218 laterunframe.cpp:228 laterunframe.cpp:238
-#: laterunframe.cpp:248 laterunframe.cpp:258 laterunframe.cpp:300
+#: laterunframe.cpp:222 laterunframe.cpp:232 laterunframe.cpp:242
+#: laterunframe.cpp:252 laterunframe.cpp:262 laterunframe.cpp:304
+#: laterunframe.cpp:314
 msgid "Open Excel file"
 msgstr "打开Excel文件"
 
-#: laterunframe.cpp:219 laterunframe.cpp:229 laterunframe.cpp:239
-#: laterunframe.cpp:249 laterunframe.cpp:259 laterunframe.cpp:301
+#: laterunframe.cpp:223 laterunframe.cpp:233 laterunframe.cpp:243
+#: laterunframe.cpp:253 laterunframe.cpp:263 laterunframe.cpp:305
+#: laterunframe.cpp:315
 msgid "Excel files (*.xls;*.xlsx)|*.xls;*.xlsx"
 msgstr "Excel 文件 (*.xls;*.xlsx)|*.xls;*.xlsx"
 
-#: laterunframe.cpp:272
+#: laterunframe.cpp:276
 msgid "Cancel"
 msgstr "取消"
 
-#: laterunframe.cpp:286 laterunui.cpp:192
+#: laterunframe.cpp:290 laterunui.cpp:208
 msgid "Run"
 msgstr "运行"
 
@@ -47,103 +49,107 @@ msgid "DataSrc"
 msgstr "数据源"
 
 #: laterunui.cpp:38
-msgid "Punch Log:"
-msgstr "打卡记录:"
+msgid "Roster:"
+msgstr "花名册:"
 
 #: laterunui.cpp:45 laterunui.cpp:61 laterunui.cpp:77 laterunui.cpp:93
-#: laterunui.cpp:109 laterunui.cpp:125
+#: laterunui.cpp:109 laterunui.cpp:125 laterunui.cpp:141
 msgid "..."
 msgstr "..."
 
 #: laterunui.cpp:54
+msgid "Punch Log:"
+msgstr "打卡记录:"
+
+#: laterunui.cpp:70
 msgid "Duty Log:"
 msgstr "值班记录:"
 
-#: laterunui.cpp:70
+#: laterunui.cpp:86
 msgid "Leave Log:"
 msgstr "请休假记录:"
 
-#: laterunui.cpp:86
+#: laterunui.cpp:102
 msgid "BizTrip Log:"
 msgstr "出差记录:"
 
-#: laterunui.cpp:102
+#: laterunui.cpp:118
 msgid "Out Log:"
 msgstr "外出记录:"
 
-#: laterunui.cpp:118
-msgid "Annual Table:"
-msgstr "入职年假表:"
+#: laterunui.cpp:134
+msgid "Surplus Table:"
+msgstr "年假/调休统计表:"
 
-#: laterunui.cpp:135
+#: laterunui.cpp:151
 msgid "Param"
 msgstr "参数"
 
-#: laterunui.cpp:140
+#: laterunui.cpp:156
 msgid "Begin Date:"
 msgstr "起始日期:"
 
-#: laterunui.cpp:147
+#: laterunui.cpp:163
 msgid "End Date:"
 msgstr "终止日期:"
 
-#: laterunui.cpp:154
+#: laterunui.cpp:170
 msgid "Special Week"
 msgstr "大小周"
 
-#: laterunui.cpp:157
+#: laterunui.cpp:173
 msgid "Exception"
 msgstr "排除"
 
-#: laterunui.cpp:166
+#: laterunui.cpp:182
 msgid "Begin Time:"
 msgstr "上班时间:"
 
-#: laterunui.cpp:173
+#: laterunui.cpp:189
 msgid "End Time:"
 msgstr "下班时间:"
 
-#: laterunui.cpp:252 laterunui.h:100
+#: laterunui.cpp:270 laterunui.h:104
 msgid "LateRun"
 msgstr "迟到快跑(LateRun)"
 
-#: laterunui.cpp:258
-msgid "Version 0.0.1.ZS"
+#: laterunui.cpp:276
+msgid "Version 0.0.3.ZS 2016.02.29"
 msgstr ""
 
-#: laterunui.cpp:262
+#: laterunui.cpp:280
 msgid "soft@leoxiaofei.com"
-msgstr ""
+msgstr "soft@leoxiaofei.com"
 
-#: laterunui.cpp:272
+#: laterunui.cpp:290
 msgid "Close"
 msgstr "关闭"
 
-#: laterunui.cpp:298
+#: laterunui.cpp:316
 msgid "Holiday"
 msgstr "节假日"
 
-#: laterunui.cpp:307
+#: laterunui.cpp:325
 msgid "Workday"
 msgstr "工作日"
 
-#: laterunui.cpp:324 laterunui.cpp:333
+#: laterunui.cpp:342 laterunui.cpp:351
 msgid "<<"
 msgstr "<<"
 
-#: laterunui.cpp:327 laterunui.cpp:336
+#: laterunui.cpp:345 laterunui.cpp:354
 msgid ">>"
 msgstr ">>"
 
-#: laterunui.cpp:352
+#: laterunui.cpp:370
 msgid "Calendar"
 msgstr "日历"
 
-#: laterunui.cpp:369
+#: laterunui.cpp:387
 msgid "&OK"
 msgstr "确定(&O)"
 
-#: laterunui.cpp:372
+#: laterunui.cpp:390
 msgid "&Cancel"
 msgstr "取消(&C)"
 
@@ -151,10 +157,13 @@ msgstr "取消(&C)"
 msgid "Date"
 msgstr "日期"
 
-#: laterunui.h:122
+#: laterunui.h:126
 msgid "About..."
 msgstr "关于..."
 
-#: laterunui.h:154
+#: laterunui.h:158
 msgid "ExceptDay"
 msgstr "排除日期"
+
+#~ msgid "Annual Table:"
+#~ msgstr "入职年假表:"

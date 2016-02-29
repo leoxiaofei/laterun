@@ -32,6 +32,22 @@ LateRunFrameBase::LateRunFrameBase( wxWindow* parent, wxWindowID id, const wxStr
 	wxStaticBoxSizer* sbSizer1;
 	sbSizer1 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("DataSrc") ), wxVERTICAL );
 	
+	wxBoxSizer* bSizer132;
+	bSizer132 = new wxBoxSizer( wxHORIZONTAL );
+	
+	lblRoster = new wxStaticText( sbSizer1->GetStaticBox(), wxID_ANY, _("Roster:"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblRoster->Wrap( -1 );
+	bSizer132->Add( lblRoster, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	edtRoster = new wxTextCtrl( sbSizer1->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer132->Add( edtRoster, 1, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	btnRoster = new wxButton( sbSizer1->GetStaticBox(), wxID_ANY, _("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT );
+	bSizer132->Add( btnRoster, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	
+	sbSizer1->Add( bSizer132, 1, wxEXPAND, 5 );
+	
 	wxBoxSizer* bSizer13;
 	bSizer13 = new wxBoxSizer( wxHORIZONTAL );
 	
@@ -115,12 +131,12 @@ LateRunFrameBase::LateRunFrameBase( wxWindow* parent, wxWindowID id, const wxStr
 	wxBoxSizer* bSizer131111;
 	bSizer131111 = new wxBoxSizer( wxHORIZONTAL );
 	
-	lblAnnualTable = new wxStaticText( sbSizer1->GetStaticBox(), wxID_ANY, _("Annual Table:"), wxDefaultPosition, wxDefaultSize, 0 );
-	lblAnnualTable->Wrap( -1 );
-	bSizer131111->Add( lblAnnualTable, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	lblSurplusTable = new wxStaticText( sbSizer1->GetStaticBox(), wxID_ANY, _("Surplus Table:"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblSurplusTable->Wrap( -1 );
+	bSizer131111->Add( lblSurplusTable, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	edtAnnualTable = new wxTextCtrl( sbSizer1->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer131111->Add( edtAnnualTable, 1, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	edtSurplusTable = new wxTextCtrl( sbSizer1->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer131111->Add( edtSurplusTable, 1, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	btnAnnualTable = new wxButton( sbSizer1->GetStaticBox(), wxID_ANY, _("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT );
 	bSizer131111->Add( btnAnnualTable, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
@@ -203,12 +219,13 @@ LateRunFrameBase::LateRunFrameBase( wxWindow* parent, wxWindowID id, const wxStr
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( LateRunFrameBase::OnClose ) );
 	this->Connect( wxEVT_SIZE, wxSizeEventHandler( LateRunFrameBase::OnSize ) );
 	this->Connect( mnuAbout->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( LateRunFrameBase::OnMnuAboutSelection ) );
+	btnRoster->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnRosterClick ), NULL, this );
 	btnPunchLog->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnPunchLogClick ), NULL, this );
 	btnDutyLog->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnDutyLogClick ), NULL, this );
 	btnLeaveLog->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnLeaveLogClick ), NULL, this );
 	btnBiztripLog->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnBiztripLogClick ), NULL, this );
 	btnOutLog->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnOutLogClick ), NULL, this );
-	btnAnnualTable->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnAnnualTableClick ), NULL, this );
+	btnAnnualTable->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnSurplusTableClick ), NULL, this );
 	btnExceptDate->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnExceptDateClick ), NULL, this );
 	btnRun->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnRunClick ), NULL, this );
 	sbMain->Connect( wxEVT_SIZE, wxSizeEventHandler( LateRunFrameBase::OnSbMainSize ), NULL, this );
@@ -220,12 +237,13 @@ LateRunFrameBase::~LateRunFrameBase()
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( LateRunFrameBase::OnClose ) );
 	this->Disconnect( wxEVT_SIZE, wxSizeEventHandler( LateRunFrameBase::OnSize ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( LateRunFrameBase::OnMnuAboutSelection ) );
+	btnRoster->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnRosterClick ), NULL, this );
 	btnPunchLog->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnPunchLogClick ), NULL, this );
 	btnDutyLog->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnDutyLogClick ), NULL, this );
 	btnLeaveLog->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnLeaveLogClick ), NULL, this );
 	btnBiztripLog->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnBiztripLogClick ), NULL, this );
 	btnOutLog->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnOutLogClick ), NULL, this );
-	btnAnnualTable->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnAnnualTableClick ), NULL, this );
+	btnAnnualTable->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnSurplusTableClick ), NULL, this );
 	btnExceptDate->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnExceptDateClick ), NULL, this );
 	btnRun->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LateRunFrameBase::OnBtnRunClick ), NULL, this );
 	sbMain->Disconnect( wxEVT_SIZE, wxSizeEventHandler( LateRunFrameBase::OnSbMainSize ), NULL, this );
@@ -255,7 +273,7 @@ LrAboutBase::LrAboutBase( wxWindow* parent, wxWindowID id, const wxString& title
 	
 	bSizer5->Add( lblSoftName, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
-	lblVersion = new wxStaticText( this, wxID_ANY, _("Version 0.0.2.ZS"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblVersion = new wxStaticText( this, wxID_ANY, _("Version 0.0.3.ZS 2016.02.29"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblVersion->Wrap( -1 );
 	bSizer5->Add( lblVersion, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	

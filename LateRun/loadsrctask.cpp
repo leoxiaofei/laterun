@@ -1,10 +1,21 @@
 #include "loadsrctask.h"
 #include "mswxexcel.h"
 #include "arecord.h"
-#include <wx/variant.h>
-#include <wx/tokenzr.h>
 #include "atemplate.h"
 #include "aconfig.h"
+
+#include <wx/variant.h>
+#include <wx/tokenzr.h>
+
+namespace
+{
+	template<class K, class V>
+	V MapValue(const std::map<K, V>& map, const K& key, const V& value = 0)
+	{
+		std::map<K, V>::const_iterator iFind = map.find(key);
+		return iFind != map.end() ? iFind->second : value;
+	}
+}
 
 class LoadSrcTask::Impl
 {
@@ -40,6 +51,21 @@ bool LoadSrcTask::StartLoad()
 		const LogSrcData& sdFileName = m_pImpl->sdFileName;
 
 		std::shared_ptr<ARecord> ptARecord(new ARecord);
+
+		///通知更新
+		++(m_pImpl->nProgress);
+		m_pImpl->dgUpdate();
+
+		if (!sdFileName.strRoster.IsEmpty())
+		{
+			LoadRoster(sdFileName.strRoster, *ptARecord);
+		}
+
+		///用户退出
+		if (m_pImpl->dgCancel())
+		{
+			break;
+		}
 
 		///通知更新
 		++(m_pImpl->nProgress);
@@ -106,13 +132,28 @@ bool LoadSrcTask::StartLoad()
 		{
 			LoadBiztripLog(sdFileName.strBiztripLog, *ptARecord);
 		}
-
+		
 		///用户退出
 		if (m_pImpl->dgCancel())
 		{
 			break;
 		}
+
+		///通知更新
+		++(m_pImpl->nProgress);
+		m_pImpl->dgUpdate();
+
+		if (!sdFileName.strSurplusTable.IsEmpty())
+		{
+			LoadSurplusTable(sdFileName.strSurplusTable, *ptARecord);
+		}
 		
+		///用户退出
+		if (m_pImpl->dgCancel())
+		{
+			break;
+		}
+
 		///通知更新
 		++(m_pImpl->nProgress);
 		m_pImpl->dgUpdate();
@@ -417,7 +458,7 @@ bool LoadSrcTask::OutputStatistics(MsWxExcel& msExcel, std::shared_ptr<ARecord> 
 					msExcel.SetValue(ciFind->second);
 				}
 			}
-			else if (citorColumn->second.eTempValueType < _T_TOTAL_)
+			else if (citorColumn->second.eTempValueType < T_SURPLUS_SWAP)
 			{
 				const AbsentTime& atTime = ptARecord->hsAbsentTime[citorID->first];
 				AbsentTime::const_iterator ciFind =	atTime.find(
@@ -431,6 +472,22 @@ bool LoadSrcTask::OutputStatistics(MsWxExcel& msExcel, std::shared_ptr<ARecord> 
 					msExcel.SetValue(0);
 				}
 			}
+			else if (citorColumn->second.eTempValueType < _T_TOTAL_)
+			{
+				const PaidHoliday& paidHoliday = ptARecord->hsPaidHoliday[citorID->first];
+				const AbsentTime& atTime = ptARecord->hsAbsentTime[citorID->first];
+				switch (citorColumn->second.eTempValueType)
+				{
+				case T_SURPLUS_SWAP:
+					msExcel.SetValue(MapValue(paidHoliday, PHT_LAST_ANNUAL) - MapValue(atTime, AT_SWAP));
+					break;
+				case T_SURPLUS_ANNUAL:
+					msExcel.SetValue(MapValue(paidHoliday, PHT_LAST_ANNUAL) - MapValue(atTime, AT_ANNUAL));
+					break;
+				default:
+					break;
+				}
+			}
 			else
 			{
 				wxString strAttach = citorColumn->second.strAttach;
@@ -442,6 +499,64 @@ bool LoadSrcTask::OutputStatistics(MsWxExcel& msExcel, std::shared_ptr<ARecord> 
 	}
 
 	return true;
+}
+
+bool LoadSrcTask::LoadRoster(const wxString& strFileName, ARecord& aRecord)
+{
+	enum RosterColumn { RC_NAME = 2, RC_JOB_ID, RC_DEPARTMENT};
+	
+	bool bRet(false);
+
+	do
+	{
+		MsWxExcel msExcel;
+
+		if (!msExcel.Init())
+		{
+			break;
+		}
+
+		if (!msExcel.Open(strFileName))
+		{
+			break;
+		}
+
+		msExcel.OpenSheet(1);
+
+		int nMaxColumn = msExcel.GetUsedMaxColumnCount() + 1;
+		int nMaxRow = msExcel.GetUsedMaxRowCount() + 1;
+		
+		wxString strID;
+		for (int ixRow = 5; ixRow < nMaxRow; ++ixRow)
+		{
+			///取员工编号
+			strID = msExcel.GetText(ixRow, RC_JOB_ID);
+			if (strID.Trim().IsEmpty())
+			{
+				continue;
+			}
+
+			HsUserInfo::const_iterator ciFind = aRecord.hsUserInfo.find(strID);
+			if (ciFind == aRecord.hsUserInfo.end())
+			{
+				UserInfo& userInfo = aRecord.hsUserInfo[strID];
+				userInfo.strDepartment = msExcel.GetText(ixRow, RC_DEPARTMENT);
+				userInfo.strDepartment.Trim();
+				userInfo.strName = msExcel.GetText(ixRow, RC_NAME);
+				userInfo.strName.Trim();
+			}
+
+			aRecord.hsTimeInfo[strID];
+
+		}
+		msExcel.Close();
+		msExcel.Quit();
+
+		bRet = true;
+
+	} while (0);
+
+	return bRet;
 }
 
 bool LoadSrcTask::LoadPunchLog(const wxString& strFileName, ARecord& aRecord)
@@ -946,6 +1061,7 @@ bool LoadSrcTask::LoadOutLog(const wxString& strFileName, ARecord& aRecord)
 		bRet = true;
 
 	} while (0);
+
 	return bRet;
 }
 
@@ -961,7 +1077,7 @@ void LoadSrcTask::SetLogSrcData(const LogSrcData& sdFileName)
 
 int LoadSrcTask::GetTotal() const
 {
-	return 8;
+	return 10;
 }
 
 int LoadSrcTask::GetProgress() const
@@ -972,5 +1088,80 @@ int LoadSrcTask::GetProgress() const
 void LoadSrcTask::SetUpdateDelegate(const UpdateDelegate& dgUpdate)
 {
 	m_pImpl->dgUpdate = dgUpdate;
+}
+
+bool LoadSrcTask::LoadSurplusTable(const wxString& strFileName, ARecord& aRecord)
+{
+	enum SurplusTableColumn { STC_NAME = 1, STC_SWAP, STC_ANNUAL };
+
+	bool bRet(false);
+
+	do
+	{
+		MsWxExcel msExcel;
+
+		if (!msExcel.Init())
+		{
+			break;
+		}
+
+		if (!msExcel.Open(strFileName))
+		{
+			break;
+		}
+
+		msExcel.OpenSheet(1);
+
+		int nMaxColumn = msExcel.GetUsedMaxColumnCount() + 1;
+		int nMaxRow = msExcel.GetUsedMaxRowCount() + 1;
+
+		double dSwap = 0.0;
+		double dAnnual = 0.0;
+
+		for (int ixRow = 2; ixRow < nMaxRow; ++ixRow)
+		{
+			///用户退出
+			if (m_pImpl->dgCancel())
+			{
+				break;
+			}
+
+			///取员工姓名
+			wxString strName = msExcel.GetText(ixRow, STC_NAME);
+			if (strName.Trim().IsEmpty())
+			{
+				continue;
+			}
+
+			///取员工编号
+			wxString strJobId = aRecord.GetJobId(strName);
+			if (strJobId.empty())
+			{
+				continue;
+			}
+
+			PaidHoliday& paidHoliday = aRecord.hsPaidHoliday[strJobId];
+			
+			if (msExcel.GetText(ixRow, STC_SWAP).Trim().ToDouble(&dSwap))
+			{
+				paidHoliday[PHT_LAST_SWAP] = dSwap;
+			}
+
+			if (msExcel.GetText(ixRow, STC_ANNUAL).Trim().ToDouble(&dAnnual))
+			{
+				paidHoliday[PHT_LAST_ANNUAL] = dAnnual;
+			}
+
+		}
+
+		///
+		msExcel.Close();
+		msExcel.Quit();
+
+		bRet = true;
+
+	} while (0);
+
+	return bRet;
 }
 

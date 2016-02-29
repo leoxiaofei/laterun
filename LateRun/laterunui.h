@@ -49,6 +49,9 @@ class LateRunFrameBase : public wxFrame
 	protected:
 		wxMenuBar* mbMain;
 		wxMenu* mnuHelp;
+		wxStaticText* lblRoster;
+		wxTextCtrl* edtRoster;
+		wxButton* btnRoster;
 		wxStaticText* lblPunchLog;
 		wxTextCtrl* edtPunchLog;
 		wxButton* btnPunchLog;
@@ -64,8 +67,8 @@ class LateRunFrameBase : public wxFrame
 		wxStaticText* lblOutLog;
 		wxTextCtrl* edtOutLog;
 		wxButton* btnOutLog;
-		wxStaticText* lblAnnualTable;
-		wxTextCtrl* edtAnnualTable;
+		wxStaticText* lblSurplusTable;
+		wxTextCtrl* edtSurplusTable;
 		wxButton* btnAnnualTable;
 		wxStaticText* lblBeginDate;
 		wxDatePickerCtrl* dpBeginDate;
@@ -84,12 +87,13 @@ class LateRunFrameBase : public wxFrame
 		virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OnSize( wxSizeEvent& event ) { event.Skip(); }
 		virtual void OnMnuAboutSelection( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnBtnRosterClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBtnPunchLogClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBtnDutyLogClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBtnLeaveLogClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBtnBiztripLogClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBtnOutLogClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnBtnAnnualTableClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnBtnSurplusTableClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBtnExceptDateClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBtnRunClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSbMainSize( wxSizeEvent& event ) { event.Skip(); }
@@ -97,7 +101,7 @@ class LateRunFrameBase : public wxFrame
 	
 	public:
 		
-		LateRunFrameBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("LateRun"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 557,506 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		LateRunFrameBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("LateRun"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 557,607 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~LateRunFrameBase();
 	

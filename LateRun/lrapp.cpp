@@ -1,7 +1,7 @@
 #include "lrapp.h"
 #include "laterunframe.h"
 #include <wx\intl.h>
-
+#include <wctype.h>
 
 bool LrApp::OnInit()
 {

@@ -33,6 +33,8 @@ namespace
 		"T_BIZOUT",
 		"T_FUNERAL",
 		"T_INJURY",
+		"T_SURPLUS_SWAP",
+		"T_SURPLUS_ANNUAL",
 		""
 	};
 

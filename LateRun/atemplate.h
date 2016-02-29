@@ -31,6 +31,8 @@ enum TempValueType{
 	T_BIZOUT,			///外出
 	T_FUNERAL,			///丧假
 	T_INJURY,			///工伤假
+	T_SURPLUS_SWAP,		///剩下调休
+	T_SURPLUS_ANNUAL,	///剩下年假
 	_T_TOTAL_,
 };
 

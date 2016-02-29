@@ -55,6 +55,16 @@ public:
 WX_DECLARE_STRING_HASH_MAP(TimeInfo, DateTimeInfo);
 WX_DECLARE_STRING_HASH_MAP(DateTimeInfo, HsTimeInfo);
 
+
+enum PaidHolidayType
+{
+	PHT_LAST_SWAP,		///上次剩余调休
+	PHT_LAST_ANNUAL,	///上次剩余年假
+};
+
+typedef std::map<PaidHolidayType, double> PaidHoliday;			///类型，时间
+WX_DECLARE_STRING_HASH_MAP(PaidHoliday, HsPaidHoliday);			///<wxString, AbsentTime> 员工ID，缺席时间
+
 class ARecord
 {
 public:
@@ -64,6 +74,8 @@ public:
 
 	HsAbsentTime hsAbsentTime;
 	HsAbsentDate hsAbsentDate;
+
+	HsPaidHoliday hsPaidHoliday;
 
 public:
 	wxString GetJobId(const wxString& strName) const;

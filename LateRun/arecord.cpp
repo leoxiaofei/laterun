@@ -8,7 +8,7 @@ wxString ARecord::GetJobId(const wxString& strName) const
 	wxString strRet;
 	wxString strTName = strName;
 	
-	while (!strTName.IsEmpty() && (iswdigit(strTName.Last()) || iswalpha(strTName.Last())))
+	while (!strTName.IsEmpty() && strTName.Last() < 256)
 	{
 		strTName.RemoveLast(1);
 	}

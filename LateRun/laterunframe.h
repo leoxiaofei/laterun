@@ -51,7 +51,9 @@ public:
 
 	virtual void OnLoadCompleted(wxThreadEvent& event);
 
-	virtual void OnBtnAnnualTableClick(wxCommandEvent& event) override;
+	virtual void OnBtnRosterClick(wxCommandEvent& event) override;
+
+	virtual void OnBtnSurplusTableClick(wxCommandEvent& event) override;
 
 
 private:
