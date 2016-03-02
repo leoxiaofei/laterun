@@ -479,7 +479,7 @@ bool LoadSrcTask::OutputStatistics(MsWxExcel& msExcel, std::shared_ptr<ARecord> 
 				switch (citorColumn->second.eTempValueType)
 				{
 				case T_SURPLUS_SWAP:
-					msExcel.SetValue(MapValue(paidHoliday, PHT_LAST_ANNUAL) - MapValue(atTime, AT_SWAP));
+					msExcel.SetValue(MapValue(paidHoliday, PHT_LAST_SWAP) + MapValue(atTime, AT_DUTY) / 7.5 - MapValue(atTime, AT_SWAP));
 					break;
 				case T_SURPLUS_ANNUAL:
 					msExcel.SetValue(MapValue(paidHoliday, PHT_LAST_ANNUAL) - MapValue(atTime, AT_ANNUAL));
